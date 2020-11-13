@@ -62,9 +62,6 @@ def scrape():
     mars_df.rename({0:'Infos', 1:'Unit'}, axis=1, inplace=True)
     mars_df['Infos'] = mars_df['Infos'].str.replace(':','')
     mars_table = mars_df.to_dict('records')
-    f = open('data/mars_table.html','w', encoding='utf-8')
-    mars_df.to_html(buf = f, index=False)
-    f.close()
 
     #store all the data in a dictionnary
     mars_data={
