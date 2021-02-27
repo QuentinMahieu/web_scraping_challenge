@@ -7,7 +7,7 @@ import time
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
     executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
-    return Browser("chrome", **executable_path, headless=False)
+    return Browser("chrome", **executable_path, headless=True)
 
 def scrape():
     browser = init_browser()
@@ -21,14 +21,15 @@ def scrape():
     news_title = result.a.text
     news_p = result.find('div', class_='article_teaser_body').text
 
-    #scrape Mars facts
-    url_image = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
+    #scrape Mars featured image
+    url_image = 'https://www.jpl.nasa.gov/news'
     browser.visit(url_image)
     time.sleep(1)
     html = browser.html
     soup = bs(html, 'html.parser')
-    src = soup.footer.a['data-fancybox-href']
-    featured_img_url = f'https://www.jpl.nasa.gov{src}'
+    src = soup.find('img',class_='object-cover w-full h-full')['src']
+    featured_img_url = src
+    print(featured_img_url)
 
     #High resoltution images for each hemisphere
     url_hem = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
